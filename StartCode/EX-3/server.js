@@ -29,13 +29,14 @@ const server = http.createServer((req, res) => {
          //  Listen for 'data' events to receive form chunks
     req.on('data', chunk => {
         body += chunk.toString(); // Convert Buffer to string and add to body
+        
     });
 
     // all data is received, handle it
     req.on('end', () => {
         //  Parse the body (key=value)
-        const parsedData = new URLSearchParams(body);
-        const name = parsedData.get('name'); // Get the 'name' field value
+        const parsedData = new URLSearchParams(body); 
+        const name = parsedData.get('name'); // Get the 'name' its value
 
         // Check if name is empty
         if (!name || name.trim() === '') { //  if name is empty return error message
@@ -47,7 +48,7 @@ const server = http.createServer((req, res) => {
 
         //Save the name to submissions.txt
         const fs = require('fs');
-        fs.appendFile('submissions.txt', name + '\n', (err) => {
+        fs.appendFile('./submissions.txt', name + '\n', (err) => {
             if (err) {
                 console.error('Error writing to file:', err);
                 res.writeHead(500, { 'Content-Type': 'text/plain' });
@@ -61,6 +62,8 @@ const server = http.createServer((req, res) => {
                 <p>Your submission has been saved.</p>
             `);
         });
+        //console.log('Working directory:', process.cwd());
+
     });
     }
 
